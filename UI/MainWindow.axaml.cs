@@ -14,12 +14,4 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    public Point StartPoint
-    {
-        get
-        {
-            return new Point(0, 0);
-        }
-    }
-
 }

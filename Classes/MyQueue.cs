@@ -1,30 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IT_Task1.Classes;
+﻿namespace IT_Task1.Classes;
 
 public class MyQueue<T>
 {
-    private int size;
+    private int _count;
     private QueueNode<T>? head;
 
     public MyQueue()
     {
-        this.size = 0;
+        this._count = 0;
         this.head = null;
     }
 
-    public int Size
+    public int Count
     {
-        get { return size; }
+        get { return _count; }
     }
 
     public bool IsEmpty
     {
-        get { return this.Size == 0; }
+        get { return this.Count == 0; }
     }
 
     public T Current
@@ -46,7 +40,7 @@ public class MyQueue<T>
         {
             T res = head.Item;
             head = head.Next;
-            size--;
+            _count--;
             return res;
         }
         else
@@ -73,19 +67,28 @@ public class MyQueue<T>
             tail.Next = node;
         }
 
-        size++;
+        _count++;
     }
-}
 
-class QueueNode<T>
-{
-    public QueueNode(T item)
+    public void Clear()
     {
-        this.Item = item;
-        this.Next = null;
+        while (!IsEmpty)
+        {
+            Dequeue();
+        }
     }
-
-    public T Item { get; }
-
-    public QueueNode<T>? Next { get; set; }
+    
+    private class QueueNode<T>
+    {
+        public QueueNode(T item)
+        {
+            this.Item = item;
+            this.Next = null;
+        }
+    
+        public T Item { get; }
+    
+        public QueueNode<T>? Next { get; set; }
+    }
 }
+

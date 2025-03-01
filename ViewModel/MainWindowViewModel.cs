@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Avalonia.Markup.Xaml.MarkupExtensions;
 using IT_Task1.Classes;
 
 namespace IT_Task1.ViewModel;
 
-public class MainWindowViewModel: INotifyPropertyChanged
+public class MainWindowViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
-    
+
     private MyQueue<int> _myQueue = new();
     private string _someString;
 
@@ -23,7 +20,7 @@ public class MainWindowViewModel: INotifyPropertyChanged
     {
         if (int.TryParse(TextBoxNewElement, out int res))
         {
-            _myQueue.Inqueue(res); 
+            _myQueue.Inqueue(res);
             TextBlockOutputError = "";
             TextBoxNewElement = "";
             OnPropertyChanged("TextBlockQueueSize");
@@ -31,6 +28,13 @@ public class MainWindowViewModel: INotifyPropertyChanged
             OnPropertyChanged("TextBlockOutputError");
             OnPropertyChanged("TextBoxNewElement");
         }
+    }
+
+    public void ButtonClearOnClick()
+    {
+        _myQueue.Clear();
+        OnPropertyChanged("TextBlockQueueSize");
+        OnPropertyChanged("TextBlockCurrentElement");
     }
 
     public void ButtonDequeueOnClick()
@@ -46,6 +50,7 @@ public class MainWindowViewModel: INotifyPropertyChanged
             OnPropertyChanged("TextBlockQueueSize");
             OnPropertyChanged("TextBlockCurrentElement");
         }
+
         OnPropertyChanged("TextBlockOutputError");
     }
 
@@ -58,15 +63,15 @@ public class MainWindowViewModel: INotifyPropertyChanged
             OnPropertyChanged("TextBlockInputError");
         }
     }
-    
+
     public string TextBlockCurrentElement
     {
         get => "Текущий элемент: " + (_myQueue.IsEmpty ? "-" : _myQueue.Current);
     }
-    
+
     public string TextBlockQueueSize
     {
-        get => "Размер очереди: " + _myQueue.Size;
+        get => "Размер очереди: " + _myQueue.Count;
     }
 
     public string TextBlockInputError
@@ -77,15 +82,10 @@ public class MainWindowViewModel: INotifyPropertyChanged
             {
                 return "";
             }
+
             return "Введите целое число";
         }
     }
 
-    public string TextBlockOutputError
-    {
-        get;
-        set;
-    }
-
-
+    public string TextBlockOutputError { get; set; }
 }
